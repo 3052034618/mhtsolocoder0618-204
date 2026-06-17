@@ -1,0 +1,50 @@
+[
+  {
+    "id": "w001",
+    "name": "陶然居陶艺工坊",
+    "description": "专注于传统陶艺制作与现代设计融合的手工工坊，拥有10年以上教学经验的专业陶艺师团队，提供从基础到进阶的全方位陶艺课程。工坊环境雅致，设备齐全，是体验陶瓷艺术魅力的理想场所。",
+    "coverImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺工坊外观，木质门面，陈列着精美陶瓷作品，温暖的灯光，文艺气息浓厚&image_size=landscape_16_9",
+    "gallery": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺工坊内部工作区，摆放着陶轮和各种陶艺工具，阳光透过窗户洒入&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺作品展示架，陈列着各种手工陶瓷器皿，花瓶、碗、杯子等&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺师正在指导学员制作陶器，专注的神情，专业的指导&image_size=landscape_16_9"
+    ],
+    "address": "上海市静安区南京西路1788号创意园B栋301",
+    "phone": "021-6288-1234",
+    "rating": 4.9,
+    "reviewCount": 328,
+    "createdAt": "2023-03-15T10:30:00Z"
+  },
+  {
+    "id": "w002",
+    "name": "匠心皮具工作室",
+    "description": "传承匠心精神的手工皮具工作室，采用进口头层牛皮，坚持传统手工缝制工艺。我们相信每一件皮具都有温度，每一针每一线都承载着匠人的心意。",
+    "coverImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具工作室外观，工业风设计，落地玻璃窗展示着精美皮具&image_size=landscape_16_9",
+    "gallery": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具制作工作台，摆放着各种皮具工具、皮革材料和半成品&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工皮具成品展示，钱包、皮带、手提包，质感高级&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具匠人正在手工缝制皮革，专注的眼神，娴熟的技巧&image_size=landscape_16_9"
+    ],
+    "address": "北京市朝阳区三里屯路19号院SOHO 2号楼105",
+    "phone": "010-6417-5678",
+    "rating": 4.8,
+    "reviewCount": 256,
+    "createdAt": "2022-08-20T14:00:00Z"
+  },
+  {
+    "id": "w003",
+    "name": "花语时光美学空间",
+    "description": "集花艺、香薰蜡烛于一体的生活美学空间。我们相信生活需要仪式感，一花一草、一烛一香都能点亮平凡的日子。在这里，你可以放慢脚步，感受自然之美。",
+    "coverImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=花艺美学空间外观，被鲜花环绕的温馨小店，粉色和绿色为主色调&image_size=landscape_16_9",
+    "gallery": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=花艺工作室内部，满室鲜花，色彩缤纷，摆放着各种花艺工具和花器&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美的花艺作品展示，手捧花束、花篮、桌花，浪漫优雅&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香薰蜡烛制作区，各种精油、蜡材和容器，温馨的氛围&image_size=landscape_16_9"
+    ],
+    "address": "广州市天河区天河路385号太古汇MU层30",
+    "phone": "020-3808-9012",
+    "rating": 4.9,
+    "reviewCount": 412,
+    "createdAt": "2024-01-10T09:15:00Z"
+  }
+]

@@ -1,0 +1,354 @@
+[
+  {
+    "id": "c001",
+    "workshopId": "w001",
+    "workshopName": "陶然居陶艺工坊",
+    "title": "陶艺入门体验课",
+    "category": "pottery",
+    "description": "适合零基础的陶艺爱好者，从认识陶土开始，学习揉泥、捏塑、修坯等基础技法，完成一个属于自己的小茶杯或小摆件。课程轻松有趣，是感受陶艺魅力的最佳选择。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺入门课程场景，学员在陶轮上制作陶器，老师在旁指导&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工捏制的可爱陶艺小茶杯，造型简约，素烧效果&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶土揉泥过程，双手在揉泥台上揉制陶土&image_size=landscape_16_9"
+    ],
+    "duration": 120,
+    "maxPeople": 8,
+    "price": 198,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 6, "max": 70 },
+    "difficulty": "beginner",
+    "rating": 4.9,
+    "reviewCount": 156,
+    "isSeries": false,
+    "notice": [
+      "请提前15分钟到达工坊，更换工作服",
+      "建议穿着不易粘毛的衣物",
+      "长头发请扎起，避免接触陶土",
+      "作品需经过两次烧制，约2周后可取"
+    ]
+  },
+  {
+    "id": "c002",
+    "workshopId": "w001",
+    "workshopName": "陶然居陶艺工坊",
+    "title": "拉坯进阶课程",
+    "category": "pottery",
+    "description": "掌握拉坯的核心技巧，学习控制陶轮转速、手部力道，制作规整的碗、花瓶等器型。适合有一定基础或想挑战进阶技法的学员。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺拉坯过程特写，双手在陶轮上塑造陶土，形成优美的器型&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美的拉坯陶瓷花瓶，造型优雅，釉色温润&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=学员在陶轮前专注拉坯，周围摆放着各种半成品&image_size=landscape_16_9"
+    ],
+    "duration": 180,
+    "maxPeople": 6,
+    "price": 298,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 12, "max": 70 },
+    "difficulty": "intermediate",
+    "rating": 4.8,
+    "reviewCount": 89,
+    "isSeries": false,
+    "notice": [
+      "建议先完成入门课程或有一定陶艺基础",
+      "拉坯过程需要耐心，多次尝试才能掌握",
+      "作品烧制包含在费用内，可刻字留念",
+      "请修剪指甲，方便操作"
+    ]
+  },
+  {
+    "id": "c003",
+    "workshopId": "w001",
+    "workshopName": "陶然居陶艺工坊",
+    "title": "釉下彩绘大师班",
+    "category": "pottery",
+    "description": "学习传统青花与新彩绘制技法，在素烧坯上创作独一无二的釉下彩绘作品。由资深陶艺师亲授，掌握配色、勾线、分水等专业技巧。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=釉下彩绘过程，用毛笔在素烧陶坯上绘制青花图案&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美的釉下彩绘陶瓷盘，花鸟图案，色彩淡雅&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=彩绘工具展示，各种毛笔、颜料、调色盘&image_size=landscape_16_9"
+    ],
+    "duration": 240,
+    "maxPeople": 4,
+    "price": 498,
+    "materialIncluded": true,
+    "materialFee": 50,
+    "ageRange": { "min": 16, "max": 70 },
+    "difficulty": "advanced",
+    "rating": 4.9,
+    "reviewCount": 45,
+    "isSeries": true,
+    "notice": [
+      "需有拉坯或捏塑基础",
+      "课程包含专业颜料和画笔",
+      "作品需经过高温烧制方可呈现最终效果",
+      "可自带参考图案，老师会指导创作",
+      "材料费用包含进口颜料和特殊釉料"
+    ]
+  },
+  {
+    "id": "c004",
+    "workshopId": "w002",
+    "workshopName": "匠心皮具工作室",
+    "title": "皮具入门-短款钱包制作",
+    "category": "leather",
+    "description": "从零开始学习皮具制作基础知识，掌握裁皮、打孔、缝制、封边等核心技能，完成一个实用的短款真皮钱包。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具制作课程现场，学员在皮革垫板上缝制钱包&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工制作的真皮短款钱包，缝线工整，质感高级&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具制作工具展示，裁皮刀、菱斩、蜡线、锤子&image_size=landscape_16_9"
+    ],
+    "duration": 180,
+    "maxPeople": 6,
+    "price": 368,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 14, "max": 70 },
+    "difficulty": "beginner",
+    "rating": 4.9,
+    "reviewCount": 128,
+    "isSeries": false,
+    "notice": [
+      "提供进口头层牛皮，多种颜色可选",
+      "工具由工坊提供，无需自备",
+      "可免费压印英文字母（最多8个）",
+      "制作过程需要耐心，建议预留充足时间"
+    ]
+  },
+  {
+    "id": "c005",
+    "workshopId": "w002",
+    "workshopName": "匠心皮具工作室",
+    "title": "手工皮带定制课",
+    "category": "leather",
+    "description": "学习皮带切割、封边、打磨、装扣等工艺，定制一条专属于你的手工皮带。可选择不同皮质、颜色和带扣，打造独一无二的单品。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工皮带制作过程，用裁皮刀切割皮革，打磨边缘&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=定制款手工皮带，意大利植鞣革，黄铜带扣，质感十足&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=各种皮带扣展示，黄铜、银色、复古风格，款式多样&image_size=landscape_16_9"
+    ],
+    "duration": 150,
+    "maxPeople": 8,
+    "price": 298,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 14, "max": 70 },
+    "difficulty": "beginner",
+    "rating": 4.8,
+    "reviewCount": 96,
+    "isSeries": false,
+    "notice": [
+      "提供意大利进口植鞣革",
+      "可根据腰围定制长度",
+      "带扣有多种款式可选（黄铜、银色、复古）",
+      "现场指导封边技巧，越用越有质感"
+    ]
+  },
+  {
+    "id": "c006",
+    "workshopId": "w002",
+    "workshopName": "匠心皮具工作室",
+    "title": "托特包进阶课程",
+    "category": "leather",
+    "description": "挑战经典托特包制作，学习复杂版型裁剪、双面对贴、手柄制作、内里缝制等高阶技法，完成一个大容量的真皮托特包。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=真皮托特包制作过程，复杂的缝制工艺，多块皮革组合&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工制作的真皮托特包，大容量，简约大气，通勤必备&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=托特包版型纸样和裁好的皮革部件，准备开始缝制&image_size=landscape_16_9"
+    ],
+    "duration": 420,
+    "maxPeople": 4,
+    "price": 888,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 16, "max": 70 },
+    "difficulty": "advanced",
+    "rating": 4.9,
+    "reviewCount": 32,
+    "isSeries": true,
+    "notice": [
+      "建议有皮具基础或先完成入门课程",
+      "课程分两次进行，每次3.5小时",
+      "包含优质头层牛皮和五金配件",
+      "可定制内里颜色和口袋设计",
+      "成品尺寸约35*30*12cm，非常实用"
+    ]
+  },
+  {
+    "id": "c007",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "韩式花束基础课",
+    "category": "floral",
+    "description": "学习花材识别、色彩搭配、螺旋捆绑法等花艺基础技巧，制作一束韩式风格的小花束。适合花艺小白，开启你的花艺之旅。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=韩式花束制作课程，花艺师指导学员搭配花材，色彩丰富&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美的韩式花束，粉色系玫瑰、洋牡丹、满天星，包装精致&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=各种新鲜花材展示，玫瑰、绣球、洋桔梗、尤加利叶&image_size=landscape_16_9"
+    ],
+    "duration": 120,
+    "maxPeople": 10,
+    "price": 228,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 8, "max": 70 },
+    "difficulty": "beginner",
+    "rating": 4.9,
+    "reviewCount": 186,
+    "isSeries": false,
+    "notice": [
+      "提供当季新鲜花材，花材会根据时令调整",
+      "花束可带走，附赠保鲜说明卡",
+      "建议穿着不怕水的衣物",
+      "可自带花器，老师会教瓶插技巧"
+    ]
+  },
+  {
+    "id": "c008",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "永生花礼盒制作",
+    "category": "floral",
+    "description": "学习永生花的特性和保存方法，设计制作一个精美的永生花礼盒。作品可保存3-5年，是送礼或居家装饰的绝佳选择。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=永生花礼盒制作过程，精心搭配永生花材，设计造型&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美永生花礼盒，渐变粉色玫瑰，搭配绿叶和配饰，高级感十足&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=各种永生花材展示，玫瑰、绣球、满天星，色彩丰富&image_size=landscape_16_9"
+    ],
+    "duration": 150,
+    "maxPeople": 8,
+    "price": 358,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 10, "max": 70 },
+    "difficulty": "intermediate",
+    "rating": 4.8,
+    "reviewCount": 78,
+    "isSeries": false,
+    "notice": [
+      "永生花可保存3-5年，无需浇水",
+      "礼盒尺寸约20*20*15cm",
+      "可选择不同色系搭配",
+      "提供精美包装和丝带"
+    ]
+  },
+  {
+    "id": "c009",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "婚礼花艺设计大师课",
+    "category": "floral",
+    "description": "专为想系统学习婚礼花艺的学员设计，涵盖手捧花、胸花、腕花、车头花等全套婚礼花艺设计，掌握专业级别的花艺技巧。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=婚礼花艺设计课程，花艺师在制作新娘手捧花，白色和绿色系&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=精美的新娘手捧花，白玫瑰、铃兰、绿叶，优雅浪漫&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=全套婚礼花艺展示，手捧花、胸花、腕花、花童花篮&image_size=landscape_16_9"
+    ],
+    "duration": 360,
+    "maxPeople": 4,
+    "price": 1280,
+    "materialIncluded": true,
+    "materialFee": 100,
+    "ageRange": { "min": 18, "max": 70 },
+    "difficulty": "advanced",
+    "rating": 4.9,
+    "reviewCount": 24,
+    "isSeries": true,
+    "notice": [
+      "需有一定花艺基础",
+      "课程分三次进行，每次2小时",
+      "包含进口花材和专业工具使用",
+      "可学到多种手捧花捆绑技法",
+      "材料费用包含特殊花材和配饰"
+    ]
+  },
+  {
+    "id": "c010",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "香薰蜡烛入门课",
+    "category": "candle",
+    "description": "学习香薰蜡烛的基础制作工艺，了解蜡材特性、精油调香、温度控制等知识，制作一杯属于自己的香薰蜡烛。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香薰蜡烛制作课程，学员在搅拌融化的蜡液，添加精油&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工香薰蜡烛，玻璃杯装，干花装饰，温馨浪漫&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=各种精油和蜡材展示，薰衣草、柠檬、玫瑰精油，大豆蜡&image_size=landscape_16_9"
+    ],
+    "duration": 90,
+    "maxPeople": 10,
+    "price": 168,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 10, "max": 70 },
+    "difficulty": "beginner",
+    "rating": 4.9,
+    "reviewCount": 212,
+    "isSeries": false,
+    "notice": [
+      "提供天然大豆蜡和多种香型精油",
+      "可添加干花装饰",
+      "玻璃杯有多种颜色可选",
+      "蜡烛需冷却凝固，约1小时后可取"
+    ]
+  },
+  {
+    "id": "c011",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "造型蜡烛创意课",
+    "category": "candle",
+    "description": "跳出传统蜡烛形态，学习制作各种造型的创意蜡烛，包括水果造型、花朵造型、大理石纹等，让蜡烛成为艺术品。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=造型蜡烛制作过程，用模具制作水果造型蜡烛，色彩鲜艳&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=创意造型蜡烛，仿真水果、花朵、大理石纹，造型逼真&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=各种蜡烛模具和颜料展示，硅胶模具、固体颜料&image_size=landscape_16_9"
+    ],
+    "duration": 150,
+    "maxPeople": 8,
+    "price": 268,
+    "materialIncluded": true,
+    "materialFee": 0,
+    "ageRange": { "min": 12, "max": 70 },
+    "difficulty": "intermediate",
+    "rating": 4.8,
+    "reviewCount": 68,
+    "isSeries": false,
+    "notice": [
+      "提供多种硅胶模具可选",
+      "可定制颜色和香味",
+      "部分造型需要额外冷却时间",
+      "建议先完成入门课程"
+    ]
+  },
+  {
+    "id": "c012",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "title": "香氛品牌创业课",
+    "category": "candle",
+    "description": "系统学习香薰蜡烛、扩香石、香氛石膏等产品的专业制作技术，同时涵盖品牌定位、包装设计、销售渠道等创业知识。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香氛创业课程，老师讲解产品配方和品牌运营，学员认真记笔记&image_size=landscape_16_9",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=完整的香氛产品系列，香薰蜡烛、扩香石、石膏挂牌，包装精美&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香氛产品包装设计展示，标签、礼盒、丝带，品牌感十足&image_size=landscape_16_9"
+    ],
+    "duration": 480,
+    "maxPeople": 4,
+    "price": 1980,
+    "materialIncluded": true,
+    "materialFee": 200,
+    "ageRange": { "min": 18, "max": 70 },
+    "difficulty": "advanced",
+    "rating": 5.0,
+    "reviewCount": 18,
+    "isSeries": true,
+    "notice": [
+      "课程分四次进行，每次2小时",
+      "包含专业配方手册和供应商资源",
+      "提供品牌设计和包装建议",
+      "课后可免费复训一次",
+      "材料费用包含大量实操材料和样品"
+    ]
+  }
+]

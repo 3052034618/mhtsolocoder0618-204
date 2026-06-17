@@ -1,0 +1,113 @@
+[
+  {
+    "id": "ser001",
+    "title": "陶艺达人养成计划",
+    "subtitle": "从入门到精通，4节课掌握陶艺核心技能",
+    "description": "专为想系统学习陶艺的学员设计的完整课程体系。从基础的捏塑成型，到专业的拉坯技法，再到艺术化的釉下彩绘，最后完成一件属于自己的精品瓷器。循序渐进，让你从陶艺小白变身陶艺达人。",
+    "coverImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺系列课程宣传图，展示陶艺制作全过程，揉泥、拉坯、彩绘、成品，艺术感强&image_size=landscape_16_9",
+    "workshopId": "w001",
+    "workshopName": "陶然居陶艺工坊",
+    "courseIds": ["c001", "c002", "c003"],
+    "courses": [
+      {
+        "id": "c001",
+        "title": "陶艺入门体验课",
+        "duration": 120,
+        "description": "认识陶土，学习揉泥、捏塑、修坯基础技法",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺入门课程封面，学员在陶轮上制作，老师指导&image_size=square"
+      },
+      {
+        "id": "c002",
+        "title": "拉坯进阶课程",
+        "duration": 180,
+        "description": "掌握拉坯核心技巧，制作规整的碗、花瓶等器型",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺拉坯课程封面，双手在陶轮上塑造优美器型&image_size=square"
+      },
+      {
+        "id": "c003",
+        "title": "釉下彩绘大师班",
+        "duration": 240,
+        "description": "学习青花与新彩绘制技法，创作独一无二的彩绘作品",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=釉下彩绘课程封面，用毛笔在陶坯上绘制精美图案&image_size=square"
+      },
+      {
+        "id": "c001+",
+        "title": "精品烧制与装裱",
+        "duration": 60,
+        "description": "了解烧制原理，学习作品装裱和展示技巧（赠送）",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶瓷烧制和装裱，精美的陶瓷作品在展示架上&image_size=square"
+      }
+    ],
+    "totalDuration": 600,
+    "originalPrice": 1092,
+    "seriesPrice": 899,
+    "discount": "8.2折",
+    "rating": 4.9,
+    "reviewCount": 78,
+    "studentCount": 156,
+    "level": "beginner_to_advanced",
+    "notice": [
+      "系列课程需在3个月内完成",
+      "购买后可预约任意开放的期次",
+      "缺课可免费补课一次",
+      "完成全部课程可获得陶艺达人证书"
+    ],
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": "ser002",
+    "title": "生活美学创业课程",
+    "subtitle": "花艺+香薰蜡烛+创业运营，打造你的个人品牌",
+    "description": "想拥有自己的花艺香氛工作室？这个系列课程就是为你准备的！系统学习韩式花艺、永生花制作、香薰蜡烛和造型蜡烛的专业技术，更有品牌运营和创业指导，助你开启梦想中的事业。",
+    "coverImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=生活美学创业课程宣传图，花艺、蜡烛、皮具作品组合，温馨浪漫，充满生活气息&image_size=landscape_16_9",
+    "workshopId": "w003",
+    "workshopName": "花语时光美学空间",
+    "courseIds": ["c007", "c008", "c010", "c012"],
+    "courses": [
+      {
+        "id": "c007",
+        "title": "韩式花束基础课",
+        "duration": 120,
+        "description": "花材识别、色彩搭配、螺旋捆绑法等花艺基础",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=韩式花束课程封面，精美韩式花束，色彩丰富&image_size=square"
+      },
+      {
+        "id": "c008",
+        "title": "永生花礼盒制作",
+        "duration": 150,
+        "description": "永生花特性、保存方法、礼盒设计与制作",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=永生花礼盒课程封面，精美的永生花礼盒&image_size=square"
+      },
+      {
+        "id": "c010",
+        "title": "香薰蜡烛入门课",
+        "duration": 90,
+        "description": "蜡材特性、精油调香、基础蜡烛制作工艺",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香薰蜡烛课程封面，各种香薰蜡烛，温馨氛围&image_size=square"
+      },
+      {
+        "id": "c012",
+        "title": "香氛品牌创业课",
+        "duration": 480,
+        "description": "专业产品技术+品牌运营+销售渠道全方位指导",
+        "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=香氛创业课程封面，产品展示、品牌设计、创业规划&image_size=square"
+      }
+    ],
+    "totalDuration": 840,
+    "originalPrice": 2734,
+    "seriesPrice": 1999,
+    "discount": "7.3折",
+    "rating": 5.0,
+    "reviewCount": 36,
+    "studentCount": 89,
+    "level": "intermediate",
+    "notice": [
+      "课程分8次完成，建议每周1-2次",
+      "包含全部材料费用，无需额外付费",
+      "赠送价值500元的创业资料包",
+      "课后可免费复训，加入创业交流群",
+      "优秀学员有机会成为工坊签约讲师"
+    ],
+    "createdAt": "2024-03-20T14:30:00Z"
+  }
+]

@@ -1,0 +1,245 @@
+[
+  {
+    "id": "r001",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c001",
+    "workshopId": "w001",
+    "rating": 5,
+    "content": "超棒的体验！老师非常有耐心，从揉泥到拉坯一步步教，第一次做陶艺就做出了一个可爱的小茶杯。工坊环境很好，很有艺术氛围。已经预约了下次的进阶课！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工制作的陶艺小茶杯，手绘图案，放在木质桌面上&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺制作过程，双手在陶轮上塑形，陶土飞溅&image_size=square"
+    ],
+    "workCardIds": ["wc001"],
+    "createdAt": "2026-05-20T15:30:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r002",
+    "userId": "u002",
+    "userName": "陈明远",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "courseId": "c004",
+    "workshopId": "w002",
+    "rating": 5,
+    "content": "作为一个程序员，周末来做皮具真的太解压了！老师教得很仔细，从裁皮到缝线每一步都有指导。最后做出来的钱包质感超好，已经用了一个月，越用越有味道。强烈推荐！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工缝制的真皮钱包，深棕色，放在桌面上，旁边有制作工具&image_size=square"
+    ],
+    "workCardIds": ["wc004"],
+    "createdAt": "2026-05-15T19:20:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r003",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c007",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "花艺课太治愈了！花材都很新鲜，老师教了很多配色技巧和螺旋捆绑法。做出来的花束带回家插了快两周才凋谢，超值！还学到了很多养花的小知识。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=韩式花束，粉色玫瑰和洋牡丹，包装精美，放在餐桌上&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=花艺制作过程，桌上摆满各种花材，正在搭配&image_size=square"
+    ],
+    "workCardIds": ["wc006"],
+    "createdAt": "2026-05-25T12:15:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r004",
+    "userId": "u005",
+    "userName": "创意科技有限公司",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=科技公司logo，蓝色主题，创意设计，专业感&image_size=square",
+    "courseId": "c001",
+    "workshopId": "w001",
+    "rating": 5,
+    "content": "公司团建选择了陶艺体验，大家都玩得很开心！老师很会调动气氛，即使是手残党也做出了满意的作品。最后看到所有人的作品摆在一起，特别有成就感。下次团建还来！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=团建活动现场，一群人在做陶艺，欢声笑语，桌上摆满作品&image_size=square"
+    ],
+    "workCardIds": [],
+    "createdAt": "2026-05-18T17:45:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r005",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c010",
+    "workshopId": "w003",
+    "rating": 4,
+    "content": "香薰蜡烛课很好玩，选了薰衣草香味，老师教了很多关于精油和蜡材的知识。过程很简单，就是等蜡烛冷却需要一点耐心。带回家后整个房间都香香的，幸福感满满！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工香薰蜡烛，玻璃杯装，紫色，表面有干花装饰，正在燃烧&image_size=square"
+    ],
+    "workCardIds": ["wc008"],
+    "createdAt": "2026-05-30T20:10:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r006",
+    "userId": "u002",
+    "userName": "陈明远",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "courseId": "c005",
+    "workshopId": "w002",
+    "rating": 5,
+    "content": "手工皮带真的太有意义了！可以自己选皮料、颜色、带扣，还能刻名字。老师教的封边技巧很实用，现在皮带越用越亮。送男朋友的生日礼物，他超喜欢！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工皮带，意大利植鞣革，黄铜扣，放在牛仔裤上展示&image_size=square"
+    ],
+    "workCardIds": ["wc005"],
+    "createdAt": "2026-06-01T14:30:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r007",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c003",
+    "workshopId": "w001",
+    "rating": 5,
+    "content": "釉下彩绘大师班真的学到了很多！老师是专业的陶艺师，讲了很多关于颜料和釉料的知识。在素烧坯上画画的感觉很特别，最后烧出来的效果超出预期。已经报了进阶课程继续学习。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=釉下彩绘陶瓷盘，青花图案，花鸟，烧制完成，放在展示架上&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=彩绘过程，用细毛笔在陶坯上勾线，专注的神情&image_size=square"
+    ],
+    "workCardIds": ["wc002", "wc003"],
+    "createdAt": "2026-06-05T16:40:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r008",
+    "userId": "u005",
+    "userName": "创意科技有限公司",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=科技公司logo，蓝色主题，创意设计，专业感&image_size=square",
+    "courseId": "c007",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "女神节组织女员工参加花艺课，大家都超级开心！花材很新鲜，老师教得也很专业。每个人都带了一束漂亮的花回家，活动反馈非常好。感谢花语时光的精心安排！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=公司团建花艺课，一群女生手持自己做的花束，笑容灿烂&image_size=square"
+    ],
+    "workCardIds": [],
+    "createdAt": "2026-03-08T18:00:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r009",
+    "userId": "u002",
+    "userName": "陈明远",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "courseId": "c006",
+    "workshopId": "w002",
+    "rating": 5,
+    "content": "托特包课程虽然有点贵，但真的超值！学了很多专业的皮具制作技巧，最后做出来的包质量完全不输大牌。容量超大，上班通勤天天用。老师说这个包能用十年，感觉赚了！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=手工真皮托特包，焦糖色，大容量，里面装着笔记本电脑和文件&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=托特包制作过程，复杂的缝线工艺，多块皮革正在组合&image_size=square"
+    ],
+    "workCardIds": ["wc007"],
+    "createdAt": "2026-06-10T21:15:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r010",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c008",
+    "workshopId": "w003",
+    "rating": 4,
+    "content": "永生花礼盒很漂亮，做起来也不难，老师会帮忙调整造型。送给妈妈当生日礼物，她特别喜欢，说要摆在电视柜上天天看。就是价格有点小贵，但能保存好几年也值了。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=永生花礼盒，粉色玫瑰，透明礼盒，放在电视柜上，旁边有小灯串&image_size=square"
+    ],
+    "workCardIds": ["wc009"],
+    "createdAt": "2026-05-10T19:30:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r011",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c011",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "造型蜡烛太有创意了！做了一个柠檬造型和一个大理石纹的，朋友们看到都以为是真的。老师教了很多调色和模具使用的技巧，准备买材料回家自己做。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=造型蜡烛，仿真柠檬和大理石纹，摆放在一起，以假乱真&image_size=square",
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=蜡烛制作过程，正在倒入彩色蜡液到硅胶模具中&image_size=square"
+    ],
+    "workCardIds": ["wc010"],
+    "createdAt": "2026-06-12T15:45:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r012",
+    "userId": "u002",
+    "userName": "陈明远",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "courseId": "c002",
+    "workshopId": "w001",
+    "rating": 4,
+    "content": "拉坯真的需要耐心！刚开始好几次都塌了，差点想放弃，好在老师一直鼓励并手把手指导。最后虽然造型不是特别完美，但毕竟是自己亲手做的，特别有成就感。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=拉坯作品，陶瓷花瓶，虽然有点歪但很有特色，放在架子上展示&image_size=square"
+    ],
+    "workCardIds": [],
+    "createdAt": "2026-06-08T17:20:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r013",
+    "userId": "u005",
+    "userName": "创意科技有限公司",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=科技公司logo，蓝色主题，创意设计，专业感&image_size=square",
+    "courseId": "c010",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "香薰蜡烛团建活动太棒了！大家可以自己选香味和颜色，互动性很强。最后每个人都带了自己做的蜡烛回家，说是最棒的公司福利之一。强烈推荐给想组织不一样团建的公司！",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=团建活动现场，员工们在做香薰蜡烛，桌上摆满各种精油和蜡材&image_size=square"
+    ],
+    "workCardIds": [],
+    "createdAt": "2026-04-15T18:30:00Z",
+    "isFeatured": false
+  },
+  {
+    "id": "r014",
+    "userId": "u001",
+    "userName": "林小雨",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "courseId": "c009",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "婚礼花艺课程太专业了！学了手捧花、胸花、腕花的制作，还有很多专业的花艺知识。老师分享了很多接单经验和定价策略，对想开工作室的我帮助很大。",
+    "images": [
+      "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=新娘手捧花，白色和绿色系，优雅浪漫，放在婚纱上展示&image_size=square"
+    ],
+    "workCardIds": [],
+    "createdAt": "2026-05-28T16:10:00Z",
+    "isFeatured": true
+  },
+  {
+    "id": "r015",
+    "userId": "u002",
+    "userName": "陈明远",
+    "userAvatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "courseId": "c012",
+    "workshopId": "w003",
+    "rating": 5,
+    "content": "香氛创业课干货满满！不仅学到了专业的制作技术，还有很多关于品牌运营和销售的实用建议。老师分享了很多供应商资源和避坑指南，准备下半年开个淘宝店试试。",
+    "images": [],
+    "workCardIds": [],
+    "createdAt": "2026-06-15T20:00:00Z",
+    "isFeatured": false
+  }
+]

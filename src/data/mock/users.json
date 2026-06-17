@@ -1,0 +1,59 @@
+[
+  {
+    "id": "u001",
+    "role": "student",
+    "username": "林小雨",
+    "email": "linxiaoyu@example.com",
+    "phone": "13800138001",
+    "avatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻女生头像，笑容甜美，长发，自然光线&image_size=square",
+    "bio": "热爱手工艺术的自由职业者，喜欢在周末参加各种手工课程放松身心。已学习陶艺、花艺、皮具制作等多种手工技艺。",
+    "followedWorkshops": ["w001", "w003"],
+    "joinedAt": "2023-06-15T10:30:00Z"
+  },
+  {
+    "id": "u002",
+    "role": "student",
+    "username": "陈明远",
+    "email": "chenmingyuan@example.com",
+    "phone": "13900139002",
+    "avatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=年轻男生头像，阳光帅气，短发，休闲装扮&image_size=square",
+    "bio": "程序员一枚，业余时间喜欢做皮具解压。已经亲手做了好几个钱包和皮带送朋友。",
+    "followedWorkshops": ["w002"],
+    "joinedAt": "2024-01-20T14:00:00Z"
+  },
+  {
+    "id": "u003",
+    "role": "workshop",
+    "username": "陶然居客服",
+    "email": "taoranju@example.com",
+    "phone": "021-6288-1234",
+    "avatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=陶艺工坊logo图标，陶瓷元素，艺术字体&image_size=square",
+    "bio": "陶然居陶艺工坊官方账号，专注传统陶艺制作与现代设计融合。欢迎来体验陶瓷艺术的魅力！",
+    "workshopId": "w001",
+    "joinedAt": "2023-03-15T10:30:00Z"
+  },
+  {
+    "id": "u004",
+    "role": "workshop",
+    "username": "匠心皮具工作室",
+    "email": "jiangxin@example.com",
+    "phone": "010-6417-5678",
+    "avatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=皮具工作室logo，皮革纹理，针线元素，简约设计&image_size=square",
+    "bio": "传承匠心精神的手工皮具工作室，采用进口头层牛皮，坚持传统手工缝制工艺。",
+    "workshopId": "w002",
+    "joinedAt": "2022-08-20T14:00:00Z"
+  },
+  {
+    "id": "u005",
+    "role": "enterprise",
+    "username": "创意科技有限公司",
+    "email": "hr@creative-tech.com",
+    "phone": "020-8888-9999",
+    "avatar": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=科技公司logo，蓝色主题，创意设计，专业感&image_size=square",
+    "bio": "我们是一家注重员工福利的科技公司，经常组织团建活动来增强团队凝聚力。已多次组织手工课程团建。",
+    "companyName": "创意科技有限公司",
+    "companySize": "50-100人",
+    "industry": "互联网/科技",
+    "joinedAt": "2024-03-10T09:00:00Z"
+  }
+]
