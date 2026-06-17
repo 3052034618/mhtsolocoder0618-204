@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import CourseCard from '@/components/home/CourseCard';
 import Button from '@/components/common/Button';
 import { useCourseStore } from '@/store/useCourseStore';
-import { useBookingStore } from '@/store/useBookingStore';
+import { useTeamBookingStore } from '@/store/useTeamBookingStore';
 import { useUserStore } from '@/store/useUserStore';
 import type { Course } from '@/types';
 
@@ -44,7 +44,7 @@ const CATEGORY_NAMES: Record<string, string> = {
 
 export default function TeamBooking() {
   const { courses, isLoaded, loadMockData } = useCourseStore();
-  const { addBooking } = useBookingStore();
+  const { addTeamBooking } = useTeamBookingStore();
   const { currentUser } = useUserStore();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedCourse, setSelectedCourse] = useState<string>('');
@@ -115,21 +115,20 @@ export default function TeamBooking() {
 
     setIsSubmitting(true);
     try {
-      addBooking({
+      addTeamBooking({
         userId: currentUser?.id || 'team-booking',
+        enterpriseName: data.enterpriseName,
+        contactName: data.contactName,
+        contactPhone: data.contactPhone,
         courseId: data.courseId,
-        sessionId: 'team-booking-session',
+        courseName: selectedCourseData.title,
+        sessionId: `team-session-${crypto.randomUUID()}`,
         peopleCount: data.peopleCount,
         totalPrice: calculatePrice(),
-        attendeeNames: [],
-        courseName: selectedCourseData.title,
+        requirements: `期望日期: ${data.expectedDate}\n特殊需求: ${data.requirements}`,
+        materialPackageConfig: [],
         workshopId: selectedCourseData.workshopId,
         workshopName: selectedCourseData.workshopName,
-        userName: data.contactName,
-        userPhone: data.contactPhone,
-        sessionDate: data.expectedDate,
-        sessionTime: '根据企业安排',
-        notes: `企业名称: ${data.enterpriseName}\n参与人数: ${data.peopleCount}\n特殊需求: ${data.requirements}`,
       });
 
       setIsSubmitting(false);

@@ -13,11 +13,13 @@ import {
   Calendar,
 } from 'lucide-react';
 import { useCourseStore } from '@/store/useCourseStore';
+import { useCheckinStore } from '@/store/useCheckinStore';
 import mockBookings from '@/data/mock/bookings.json';
 import { format } from 'date-fns';
 
 export default function AdminCheckin() {
   const { courses, sessions, loadMockData, getSessionsByCourse } = useCourseStore();
+  const { checkinRecords, checkIn, cancelCheckIn, isCheckedIn, getCheckinCount } = useCheckinStore();
   const [selectedCourseId, setSelectedCourseId] = useState<string>('');
   const [selectedSessionId, setSelectedSessionId] = useState<string>('');
   const [showCourseDropdown, setShowCourseDropdown] = useState(false);
@@ -52,35 +54,39 @@ export default function AdminCheckin() {
   const checkinBookings = useMemo((): CheckinItem[] => {
     return mockBookings
       .filter((b) => b.sessionId === selectedSessionId && b.status !== 'cancelled' && b.status !== 'refunded')
-      .map((b): CheckinItem => ({
-        id: b.id,
-        userName: b.userName,
-        userPhone: b.contactPhone,
-        peopleCount: b.quantity,
-        createdAt: b.createdAt,
-        status: b.status === 'completed' ? 'completed' : b.status === 'confirmed' ? 'paid' : (b.status as 'paid' | 'checkedin'),
-      }));
-  }, [selectedSessionId]);
+      .map((b): CheckinItem => {
+        const checkedIn = isCheckedIn(b.id, selectedSessionId);
+        const baseStatus = b.status === 'completed' ? 'completed' : b.status === 'confirmed' ? 'paid' : (b.status as 'paid' | 'checkedin');
+        return {
+          id: b.id,
+          userName: b.userName,
+          userPhone: b.contactPhone,
+          peopleCount: b.quantity,
+          createdAt: b.createdAt,
+          status: checkedIn ? 'checkedin' : baseStatus === 'completed' ? 'completed' : 'paid',
+        };
+      });
+  }, [selectedSessionId, checkinRecords, isCheckedIn]);
 
   const stats = useMemo(() => {
     const total = checkinBookings.reduce((sum, b) => sum + b.peopleCount, 0);
+    const checkedInBookings = useCheckinStore.getState().getCheckedInBookings(selectedSessionId);
     const checkedIn = checkinBookings
-      .filter((b) => b.status === 'checkedin' || b.status === 'completed')
+      .filter((b) => checkedInBookings.includes(b.id) || b.status === 'completed')
       .reduce((sum, b) => sum + b.peopleCount, 0);
     const notCheckedIn = total - checkedIn;
     return { total, checkedIn, notCheckedIn };
-  }, [checkinBookings]);
+  }, [checkinBookings, selectedSessionId, checkinRecords]);
 
   const handleCheckin = (bookingId: string) => {
-    console.log('签到:', bookingId);
+    checkIn(bookingId, selectedSessionId);
   };
 
   const handleCancelCheckin = (bookingId: string) => {
-    console.log('取消签到:', bookingId);
+    cancelCheckIn(bookingId, selectedSessionId);
   };
 
   const handleExport = () => {
-    console.log('导出签到名单');
     const headers = ['序号', '学员姓名', '联系方式', '报名人数', '签到状态', '报名时间'];
     const rows = checkinBookings.map((b, i) => [
       i + 1,

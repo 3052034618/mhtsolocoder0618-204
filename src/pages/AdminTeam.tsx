@@ -18,9 +18,10 @@ import {
   Filter,
 } from 'lucide-react';
 import { useCourseStore } from '@/store/useCourseStore';
+import { useTeamBookingStore } from '@/store/useTeamBookingStore';
 import mockBookings from '@/data/mock/bookings.json';
 import { format } from 'date-fns';
-import { MaterialPackageItem } from '@/types';
+import { MaterialPackageItem, TeamBooking as TeamBookingType } from '@/types';
 
 interface TeamBooking {
   id: string;
@@ -50,7 +51,8 @@ const statusConfig: Record<string, { label: string; variant: string }> = {
 };
 
 export default function AdminTeam() {
-  const { loadMockData } = useCourseStore();
+  const { loadMockData, getCourseById, sessions } = useCourseStore();
+  const { teamBookings: storeTeamBookings, updateStatus, updateMaterialPackage } = useTeamBookingStore();
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState<TeamBooking | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -62,34 +64,128 @@ export default function AdminTeam() {
     loadMockData();
   }, [loadMockData]);
 
-  const teamBookings = useMemo((): TeamBooking[] => mockBookings.filter(b => b.isTeamBooking).map(b => ({
-    id: b.id, orderNo: b.orderNo, teamName: b.teamName, courseTitle: b.courseTitle,
-    sessionDate: b.sessionDate, sessionStartTime: b.sessionStartTime, sessionEndTime: b.sessionEndTime,
-    teamMemberCount: b.teamMemberCount, payAmount: b.payAmount, status: b.status,
-    contactName: b.contactName, contactPhone: b.contactPhone, workshopName: b.workshopName,
-    remark: b.remark, materialPackageConfig: b.id === 'b004' ? [
-      { name: '陶泥', quantity: 2, description: '每人2包优质陶泥' },
-      { name: '工具套装', quantity: 1, description: '包含修坯刀、海绵、割泥线' },
-      { name: '围裙', quantity: 8, description: '防污工作围裙' },
-    ] : undefined,
-  })), []);
+  const teamBookings = useMemo((): TeamBooking[] => {
+    const mockTeamBookings: TeamBooking[] = mockBookings
+      .filter(b => b.isTeamBooking)
+      .map(b => ({
+        id: b.id,
+        orderNo: b.orderNo,
+        teamName: b.teamName,
+        courseTitle: b.courseTitle,
+        sessionDate: b.sessionDate,
+        sessionStartTime: b.sessionStartTime,
+        sessionEndTime: b.sessionEndTime,
+        teamMemberCount: b.teamMemberCount,
+        payAmount: b.payAmount,
+        status: b.status,
+        contactName: b.contactName,
+        contactPhone: b.contactPhone,
+        workshopName: b.workshopName,
+        remark: b.remark,
+        materialPackageConfig: b.id === 'b004' ? [
+          { name: '陶泥', quantity: 2, description: '每人2包优质陶泥' },
+          { name: '工具套装', quantity: 1, description: '包含修坯刀、海绵、割泥线' },
+          { name: '围裙', quantity: 8, description: '防污工作围裙' },
+        ] : undefined,
+      }));
+
+    const storeIds = new Set(storeTeamBookings.map(b => b.id));
+    const filteredMockBookings = mockTeamBookings.filter(b => !storeIds.has(b.id));
+
+    const mappedStoreBookings: TeamBooking[] = storeTeamBookings.map(booking => {
+      const course = getCourseById(booking.courseId);
+      const session = sessions.find(s => s.id === booking.sessionId);
+      const bookingData = booking as any;
+      
+      return {
+        id: booking.id,
+        orderNo: `BK${booking.id.slice(0, 8).toUpperCase()}`,
+        teamName: booking.enterpriseName,
+        courseTitle: bookingData.courseName || course?.title || '未知课程',
+        sessionDate: session?.date || bookingData.sessionDate || bookingData.expectedDate || booking.createdAt.split('T')[0],
+        sessionStartTime: session?.startTime || '09:00',
+        sessionEndTime: session?.endTime || '11:00',
+        teamMemberCount: booking.peopleCount,
+        payAmount: booking.totalPrice,
+        status: booking.status,
+        contactName: bookingData.contactName || '联系人',
+        contactPhone: bookingData.contactPhone || '联系电话',
+        workshopName: bookingData.workshopName || course?.workshopName || '未知工坊',
+        remark: booking.requirements,
+        materialPackageConfig: booking.materialPackageConfig?.length > 0 
+          ? booking.materialPackageConfig 
+          : undefined,
+      };
+    });
+
+    return [...mappedStoreBookings, ...filteredMockBookings].sort(
+      (a, b) => new Date(b.sessionDate).getTime() - new Date(a.sessionDate).getTime()
+    );
+  }, [storeTeamBookings, getCourseById, sessions]);
+
+  useEffect(() => {
+    if (selectedBooking && (showDetailModal || showMaterialModal)) {
+      const updatedBooking = teamBookings.find(b => b.id === selectedBooking.id);
+      if (updatedBooking) {
+        setSelectedBooking(updatedBooking);
+        setMaterialItems(updatedBooking.materialPackageConfig || []);
+      }
+    }
+  }, [teamBookings, selectedBooking?.id, showDetailModal, showMaterialModal]);
 
   const filteredBookings = useMemo(() => {
     return statusFilter === 'all' ? teamBookings : teamBookings.filter((b) => b.status === statusFilter);
   }, [teamBookings, statusFilter]);
 
   const handleViewDetail = (booking: TeamBooking) => {
-    setSelectedBooking(booking);
-    setMaterialItems(booking.materialPackageConfig || []);
+    const currentBooking = teamBookings.find(b => b.id === booking.id) || booking;
+    setSelectedBooking(currentBooking);
+    setMaterialItems(currentBooking.materialPackageConfig || []);
     setShowDetailModal(true);
   };
 
   const confirm = (msg: string) => window.confirm(msg);
-  const handleConfirmBooking = (id: string) => { if (confirm('确认预订？')) console.log('确认:', id); };
-  const handleMarkComplete = (id: string) => { if (confirm('标记完成？')) console.log('完成:', id); };
-  const handleConfigureMaterials = (b: TeamBooking) => { setSelectedBooking(b); setMaterialItems(b.materialPackageConfig || []); setShowMaterialModal(true); };
-  const handleAddMaterial = () => { if (newMaterial.name.trim()) { setMaterialItems([...materialItems, { ...newMaterial }]); setNewMaterial({ name: '', quantity: 1, description: '' }); } };
-  const handleSaveMaterials = () => { console.log('保存材料:', materialItems); setShowMaterialModal(false); };
+  
+  const handleConfirmBooking = (id: string) => {
+    if (confirm('确认预订？')) {
+      updateStatus(id, 'confirmed');
+      if (selectedBooking?.id === id) {
+        const updated = teamBookings.find(b => b.id === id);
+        if (updated) setSelectedBooking(updated);
+      }
+    }
+  };
+  
+  const handleMarkComplete = (id: string) => {
+    if (confirm('标记完成？')) {
+      updateStatus(id, 'completed');
+      if (selectedBooking?.id === id) {
+        const updated = teamBookings.find(b => b.id === id);
+        if (updated) setSelectedBooking(updated);
+      }
+    }
+  };
+  
+  const handleConfigureMaterials = (b: TeamBooking) => {
+    const currentBooking = teamBookings.find(booking => booking.id === b.id) || b;
+    setSelectedBooking(currentBooking);
+    setMaterialItems(currentBooking.materialPackageConfig || []);
+    setShowMaterialModal(true);
+  };
+  
+  const handleAddMaterial = () => {
+    if (newMaterial.name.trim()) {
+      setMaterialItems([...materialItems, { ...newMaterial }]);
+      setNewMaterial({ name: '', quantity: 1, description: '' });
+    }
+  };
+  
+  const handleSaveMaterials = () => {
+    if (selectedBooking) {
+      updateMaterialPackage(selectedBooking.id, materialItems);
+      setShowMaterialModal(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-sand-50">

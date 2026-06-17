@@ -170,12 +170,17 @@ export interface TeamBooking {
   id: string;
   userId: string;
   enterpriseName: string;
+  contactName: string;
+  contactPhone: string;
   courseId: string;
+  courseName: string;
   sessionId: string;
   peopleCount: number;
   totalPrice: number;
   status: TeamBookingStatus;
   requirements: string;
   materialPackageConfig: MaterialPackageItem[];
+  workshopId: string;
+  workshopName: string;
   createdAt: string;
 }

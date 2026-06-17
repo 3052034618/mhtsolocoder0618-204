@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Star, Clock, Users, Calendar, MapPin, Building2, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import SessionCalendar from '@/components/course/SessionCalendar';
@@ -9,10 +10,6 @@ import CourseCard from '@/components/home/CourseCard';
 import Button from '@/components/common/Button';
 import { useCourseStore } from '@/store/useCourseStore';
 import type { Course, Session } from '@/types';
-
-interface CourseDetailProps {
-  courseId?: string;
-}
 
 function renderStars(rating: number) {
   return (
@@ -38,7 +35,8 @@ const difficultyLabels: Record<string, string> = {
   advanced: '高级',
 };
 
-export default function CourseDetail({ courseId = 'c001' }: CourseDetailProps) {
+export default function CourseDetail() {
+  const { id } = useParams<{ id: string }>();
   const { courses, getCourseById, getWorkshopById, isLoaded, loadMockData } = useCourseStore();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
@@ -50,7 +48,7 @@ export default function CourseDetail({ courseId = 'c001' }: CourseDetailProps) {
     }
   }, [isLoaded, loadMockData]);
 
-  const course = useMemo(() => getCourseById(courseId), [courseId, getCourseById]);
+  const course = useMemo(() => id ? getCourseById(id) : undefined, [id, getCourseById]);
   const workshop = useMemo(() => course ? getWorkshopById(course.workshopId) : undefined, [course, getWorkshopById]);
 
   const relatedCourses = useMemo(() => {
@@ -180,131 +178,131 @@ export default function CourseDetail({ courseId = 'c001' }: CourseDetailProps) {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                   <div className="bg-sand-50 rounded-xl p-3 text-center">
-                  <Clock className="w-5 h-5 text-clay-500 mx-auto mb-1" />
-                  <p className="text-xs text-sand-500">课程时长</p>
-                  <p className="font-semibold text-sand-800">{Math.floor(course.duration / 60)}小时{course.duration % 60 > 0 ? `${course.duration % 60}分钟` : ''}</p>
+                    <Clock className="w-5 h-5 text-clay-500 mx-auto mb-1" />
+                    <p className="text-xs text-sand-500">课程时长</p>
+                    <p className="font-semibold text-sand-800">{Math.floor(course.duration / 60)}小时{course.duration % 60 > 0 ? `${course.duration % 60}分钟` : ''}</p>
+                  </div>
+                  <div className="bg-sand-50 rounded-xl p-3 text-center">
+                    <Users className="w-5 h-5 text-clay-500 mx-auto mb-1" />
+                    <p className="text-xs text-sand-500">人数限制</p>
+                    <p className="font-semibold text-sand-800">{course.maxPeople}人</p>
+                  </div>
+                  <div className="bg-sand-50 rounded-xl p-3 text-center">
+                    <Calendar className="w-5 h-5 text-clay-500 mx-auto mb-1" />
+                    <p className="text-xs text-sand-500">适合年龄</p>
+                    <p className="font-semibold text-sand-800">{course.ageRange.min}-{course.ageRange.max}岁</p>
+                  </div>
+                  <div className="bg-sand-50 rounded-xl p-3 text-center">
+                    <Star className="w-5 h-5 text-clay-500 mx-auto mb-1" />
+                    <p className="text-xs text-sand-500">难度等级</p>
+                    <p className="font-semibold text-sand-800">{difficultyLabels[course.difficulty]}</p>
+                  </div>
                 </div>
-                <div className="bg-sand-50 rounded-xl p-3 text-center">
-                  <Users className="w-5 h-5 text-clay-500 mx-auto mb-1" />
-                  <p className="text-xs text-sand-500">人数限制</p>
-                  <p className="font-semibold text-sand-800">{course.maxPeople}人</p>
-                </div>
-                <div className="bg-sand-50 rounded-xl p-3 text-center">
-                  <Calendar className="w-5 h-5 text-clay-500 mx-auto mb-1" />
-                  <p className="text-xs text-sand-500">适合年龄</p>
-                  <p className="font-semibold text-sand-800">{course.ageRange.min}-{course.ageRange.max}岁</p>
-                </div>
-                <div className="bg-sand-50 rounded-xl p-3 text-center">
-                  <Star className="w-5 h-5 text-clay-500 mx-auto mb-1" />
-                  <p className="text-xs text-sand-500">难度等级</p>
-                  <p className="font-semibold text-sand-800">{difficultyLabels[course.difficulty]}</p>
+
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-pottery mb-3">课程介绍</h3>
+                  <p className="text-sand-600 leading-relaxed">{course.description}</p>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-pottery mb-3">课程介绍</h3>
-                <p className="text-sand-600 leading-relaxed">{course.description}</p>
-              </div>
-            </div>
-
-            <div className="flex items-end justify-between pt-4 border-t border-sand-100">
-              <div>
-                <span className="text-sm text-sand-500">课程价格</span>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-clay-600">¥{course.price}</span>
-                  {course.materialFee && course.materialFee > 0 && (
-                    <span className="text-sm text-sand-400">+{course.materialFee}材料费</span>
-                  )}
+              <div className="flex items-end justify-between pt-4 border-t border-sand-100">
+                <div>
+                  <span className="text-sm text-sand-500">课程价格</span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-clay-600">¥{course.price}</span>
+                    {course.materialFee && course.materialFee > 0 && (
+                      <span className="text-sm text-sand-400">+{course.materialFee}材料费</span>
+                    )}
+                  </div>
+                  <span className="text-sm text-sand-400 block">/人</span>
                 </div>
-                <span className="text-sm text-sand-400 block">/人</span>
+                <Button size="lg" onClick={handleBook} className="px-8">
+                  立即报名
+                </Button>
               </div>
-              <Button size="lg" onClick={handleBook} className="px-8">
-                立即报名
-              </Button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div className="max-w-7xl mx-auto p-4 md:p-8">
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <SessionCalendar
-            courseId={course.id}
-            selectedSession={selectedSession}
-            onSelectSession={setSelectedSession}
-          />
-          <NoticePanel courseId={course.id} />
-          <ReviewList courseId={course.id} />
-        </div>
-
-        <div className="space-y-6">
-          <div className="bg-white rounded-3xl shadow-soft p-6">
-            <h3 className="text-xl font-semibold text-sand-900 font-serif mb-4">已选信息</h3>
-            {selectedSession ? (
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sand-500">课程</span>
-                  <span className="font-medium text-sand-800">{course.title}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sand-500">日期</span>
-                  <span className="font-medium text-sand-800">{selectedSession.date}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sand-500">时间</span>
-                  <span className="font-medium text-sand-800">{selectedSession.startTime} - {selectedSession.endTime}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sand-500">剩余名额</span>
-                  <span className="font-medium text-sand-800">{selectedSession.maxPeople - selectedSession.currentPeople}人</span>
-                </div>
-                <div className="border-t border-sand-100 pt-3 flex justify-between">
-                  <span className="text-sand-500">单价</span>
-                  <span className="font-bold text-clay-600">¥{selectedSession.price}</span>
-                </div>
-              </div>
-            ) : (
-              <p className="text-center text-sand-400 py-4">请在左侧日历中选择上课时间</p>
-            )}
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <SessionCalendar
+              courseId={course.id}
+              selectedSession={selectedSession}
+              onSelectSession={setSelectedSession}
+            />
+            <NoticePanel courseId={course.id} />
+            <ReviewList courseId={course.id} />
           </div>
 
-          <Button className="w-full" size="lg" onClick={handleBook}>
-            {selectedSession ? '立即报名' : '请先选择时间'}
-          </Button>
-        </div>
-      </div>
-    </div>
-
-    {relatedCourses.length > 0 && (
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-pottery mb-2">相关课程推荐</h2>
-              <p className="text-sand-500">你可能也喜欢这些课程</p>
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl shadow-soft p-6">
+              <h3 className="text-xl font-semibold text-sand-900 font-serif mb-4">已选信息</h3>
+              {selectedSession ? (
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-sand-500">课程</span>
+                    <span className="font-medium text-sand-800">{course.title}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sand-500">日期</span>
+                    <span className="font-medium text-sand-800">{selectedSession.date}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sand-500">时间</span>
+                    <span className="font-medium text-sand-800">{selectedSession.startTime} - {selectedSession.endTime}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sand-500">剩余名额</span>
+                    <span className="font-medium text-sand-800">{selectedSession.maxPeople - selectedSession.currentPeople}人</span>
+                  </div>
+                  <div className="border-t border-sand-100 pt-3 flex justify-between">
+                    <span className="text-sand-500">单价</span>
+                    <span className="font-bold text-clay-600">¥{selectedSession.price}</span>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-center text-sand-400 py-4">请在左侧日历中选择上课时间</p>
+              )}
             </div>
-            <Button variant="ghost" className="flex items-center gap-2">
-              查看更多 <ArrowRight className="w-4 h-4" />
+
+            <Button className="w-full" size="lg" onClick={handleBook}>
+              {selectedSession ? '立即报名' : '请先选择时间'}
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedCourses.map((c: Course) => (
-              <CourseCard key={c.id} course={c} />
-            ))}
-          </div>
         </div>
-      </section>
-    )}
+      </div>
 
-    <BookingModal
-      isOpen={showBookingModal}
-      onClose={() => setShowBookingModal(false)}
-      courseId={course.id}
-      session={selectedSession}
-      onSuccess={handleBookingSuccess}
-    />
+      {relatedCourses.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-pottery mb-2">相关课程推荐</h2>
+                <p className="text-sand-500">你可能也喜欢这些课程</p>
+              </div>
+              <Button variant="ghost" className="flex items-center gap-2">
+                查看更多 <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {relatedCourses.map((c: Course) => (
+                <CourseCard key={c.id} course={c} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <BookingModal
+        isOpen={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+        courseId={course.id}
+        session={selectedSession}
+        onSuccess={handleBookingSuccess}
+      />
     </div>
   );
 }
