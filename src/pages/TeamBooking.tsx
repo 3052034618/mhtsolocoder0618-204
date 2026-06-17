@@ -125,10 +125,11 @@ export default function TeamBooking() {
         sessionId: `team-session-${crypto.randomUUID()}`,
         peopleCount: data.peopleCount,
         totalPrice: calculatePrice(),
-        requirements: `期望日期: ${data.expectedDate}\n特殊需求: ${data.requirements}`,
+        requirements: data.requirements,
         materialPackageConfig: [],
         workshopId: selectedCourseData.workshopId,
         workshopName: selectedCourseData.workshopName,
+        expectedDate: data.expectedDate,
       });
 
       setIsSubmitting(false);

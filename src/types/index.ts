@@ -182,5 +182,10 @@ export interface TeamBooking {
   materialPackageConfig: MaterialPackageItem[];
   workshopId: string;
   workshopName: string;
+  expectedDate: string;
+  confirmedDate?: string;
+  confirmedStartTime?: string;
+  confirmedEndTime?: string;
+  teacherNotes?: string;
   createdAt: string;
 }

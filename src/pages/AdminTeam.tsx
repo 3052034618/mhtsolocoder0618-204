@@ -16,6 +16,8 @@ import {
   Plus,
   Trash2,
   Filter,
+  Clock,
+  FileText,
 } from 'lucide-react';
 import { useCourseStore } from '@/store/useCourseStore';
 import { useTeamBookingStore } from '@/store/useTeamBookingStore';
@@ -23,7 +25,7 @@ import mockBookings from '@/data/mock/bookings.json';
 import { format } from 'date-fns';
 import { MaterialPackageItem, TeamBooking as TeamBookingType } from '@/types';
 
-interface TeamBooking {
+interface TeamBookingDisplay {
   id: string;
   orderNo: string;
   teamName: string;
@@ -38,7 +40,10 @@ interface TeamBooking {
   contactPhone: string;
   workshopName: string;
   remark: string;
+  expectedDate?: string;
+  teacherNotes?: string;
   materialPackageConfig?: MaterialPackageItem[];
+  isFromStore?: boolean;
 }
 
 const statusConfig: Record<string, { label: string; variant: string }> = {
@@ -52,20 +57,27 @@ const statusConfig: Record<string, { label: string; variant: string }> = {
 
 export default function AdminTeam() {
   const { loadMockData, getCourseById, sessions } = useCourseStore();
-  const { teamBookings: storeTeamBookings, updateStatus, updateMaterialPackage } = useTeamBookingStore();
+  const { teamBookings: storeTeamBookings, confirmSchedule, updateStatus, updateMaterialPackage } = useTeamBookingStore();
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedBooking, setSelectedBooking] = useState<TeamBooking | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<TeamBookingDisplay | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showMaterialModal, setShowMaterialModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [materialItems, setMaterialItems] = useState<MaterialPackageItem[]>([]);
   const [newMaterial, setNewMaterial] = useState({ name: '', quantity: 1, description: '' });
+  const [confirmForm, setConfirmForm] = useState({
+    confirmedDate: '',
+    confirmedStartTime: '09:00',
+    confirmedEndTime: '11:00',
+    teacherNotes: '',
+  });
 
   useEffect(() => {
     loadMockData();
   }, [loadMockData]);
 
-  const teamBookings = useMemo((): TeamBooking[] => {
-    const mockTeamBookings: TeamBooking[] = mockBookings
+  const teamBookings = useMemo((): TeamBookingDisplay[] => {
+    const mockTeamBookings: TeamBookingDisplay[] = mockBookings
       .filter(b => b.isTeamBooking)
       .map(b => ({
         id: b.id,
@@ -92,19 +104,21 @@ export default function AdminTeam() {
     const storeIds = new Set(storeTeamBookings.map(b => b.id));
     const filteredMockBookings = mockTeamBookings.filter(b => !storeIds.has(b.id));
 
-    const mappedStoreBookings: TeamBooking[] = storeTeamBookings.map(booking => {
+    const mappedStoreBookings: TeamBookingDisplay[] = storeTeamBookings.map(booking => {
       const course = getCourseById(booking.courseId);
-      const session = sessions.find(s => s.id === booking.sessionId);
       const bookingData = booking as any;
-      
+      const displayDate = booking.confirmedDate || bookingData.expectedDate || booking.createdAt.split('T')[0];
+      const displayStartTime = booking.confirmedStartTime || '09:00';
+      const displayEndTime = booking.confirmedEndTime || '11:00';
+
       return {
         id: booking.id,
         orderNo: `BK${booking.id.slice(0, 8).toUpperCase()}`,
         teamName: booking.enterpriseName,
         courseTitle: bookingData.courseName || course?.title || '未知课程',
-        sessionDate: session?.date || bookingData.sessionDate || bookingData.expectedDate || booking.createdAt.split('T')[0],
-        sessionStartTime: session?.startTime || '09:00',
-        sessionEndTime: session?.endTime || '11:00',
+        sessionDate: displayDate,
+        sessionStartTime: displayStartTime,
+        sessionEndTime: displayEndTime,
         teamMemberCount: booking.peopleCount,
         payAmount: booking.totalPrice,
         status: booking.status,
@@ -112,9 +126,12 @@ export default function AdminTeam() {
         contactPhone: bookingData.contactPhone || '联系电话',
         workshopName: bookingData.workshopName || course?.workshopName || '未知工坊',
         remark: booking.requirements,
-        materialPackageConfig: booking.materialPackageConfig?.length > 0 
-          ? booking.materialPackageConfig 
+        expectedDate: bookingData.expectedDate,
+        teacherNotes: booking.teacherNotes,
+        materialPackageConfig: booking.materialPackageConfig?.length > 0
+          ? booking.materialPackageConfig
           : undefined,
+        isFromStore: true,
       };
     });
 
@@ -137,49 +154,57 @@ export default function AdminTeam() {
     return statusFilter === 'all' ? teamBookings : teamBookings.filter((b) => b.status === statusFilter);
   }, [teamBookings, statusFilter]);
 
-  const handleViewDetail = (booking: TeamBooking) => {
+  const handleViewDetail = (booking: TeamBookingDisplay) => {
     const currentBooking = teamBookings.find(b => b.id === booking.id) || booking;
     setSelectedBooking(currentBooking);
     setMaterialItems(currentBooking.materialPackageConfig || []);
     setShowDetailModal(true);
   };
 
-  const confirm = (msg: string) => window.confirm(msg);
-  
-  const handleConfirmBooking = (id: string) => {
-    if (confirm('确认预订？')) {
-      updateStatus(id, 'confirmed');
-      if (selectedBooking?.id === id) {
-        const updated = teamBookings.find(b => b.id === id);
-        if (updated) setSelectedBooking(updated);
-      }
-    }
+  const handleOpenConfirm = (booking: TeamBookingDisplay) => {
+    const currentBooking = teamBookings.find(b => b.id === booking.id) || booking;
+    setSelectedBooking(currentBooking);
+    setConfirmForm({
+      confirmedDate: currentBooking.expectedDate || currentBooking.sessionDate || new Date().toISOString().split('T')[0],
+      confirmedStartTime: '09:00',
+      confirmedEndTime: '11:00',
+      teacherNotes: '',
+    });
+    setShowConfirmModal(true);
   };
-  
+
+  const handleConfirmSchedule = () => {
+    if (!selectedBooking || !confirmForm.confirmedDate) return;
+    confirmSchedule(selectedBooking.id, {
+      confirmedDate: confirmForm.confirmedDate,
+      confirmedStartTime: confirmForm.confirmedStartTime,
+      confirmedEndTime: confirmForm.confirmedEndTime,
+      teacherNotes: confirmForm.teacherNotes,
+    });
+    setShowConfirmModal(false);
+    setShowDetailModal(false);
+  };
+
   const handleMarkComplete = (id: string) => {
-    if (confirm('标记完成？')) {
+    if (window.confirm('标记完成？')) {
       updateStatus(id, 'completed');
-      if (selectedBooking?.id === id) {
-        const updated = teamBookings.find(b => b.id === id);
-        if (updated) setSelectedBooking(updated);
-      }
     }
   };
-  
-  const handleConfigureMaterials = (b: TeamBooking) => {
+
+  const handleConfigureMaterials = (b: TeamBookingDisplay) => {
     const currentBooking = teamBookings.find(booking => booking.id === b.id) || b;
     setSelectedBooking(currentBooking);
     setMaterialItems(currentBooking.materialPackageConfig || []);
     setShowMaterialModal(true);
   };
-  
+
   const handleAddMaterial = () => {
     if (newMaterial.name.trim()) {
       setMaterialItems([...materialItems, { ...newMaterial }]);
       setNewMaterial({ name: '', quantity: 1, description: '' });
     }
   };
-  
+
   const handleSaveMaterials = () => {
     if (selectedBooking) {
       updateMaterialPackage(selectedBooking.id, materialItems);
@@ -194,7 +219,7 @@ export default function AdminTeam() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-sand-900 font-serif mb-2">团建专场管理</h1>
-            <p className="text-sand-600">管理企业团建预订和材料包配置</p>
+            <p className="text-sand-600">管理企业团建预订、排期确认和材料包配置</p>
           </div>
         </div>
 
@@ -257,7 +282,7 @@ export default function AdminTeam() {
                         <div className="flex items-center gap-1">
                           <Button variant="ghost" size="sm" onClick={() => handleViewDetail(booking)}><Eye size={16} /></Button>
                           {booking.status === 'pending' && (
-                            <Button variant="ghost" size="sm" className="text-green-600" onClick={() => handleConfirmBooking(booking.id)}><CheckCircle size={16} /></Button>
+                            <Button variant="ghost" size="sm" className="text-green-600" onClick={() => handleOpenConfirm(booking)}><CheckCircle size={16} /></Button>
                           )}
                           {(booking.status === 'confirmed' || booking.status === 'paid') && (
                             <>
@@ -295,16 +320,32 @@ export default function AdminTeam() {
                     <h4 className="text-sm font-medium text-sand-500">课程信息</h4>
                     <p className="font-medium">{selectedBooking.courseTitle}</p>
                     <div className="flex items-center gap-2"><MapPin size={14} className="text-sand-400" /><span className="text-sm">{selectedBooking.workshopName}</span></div>
-                    <div className="flex items-center gap-2"><Calendar size={14} className="text-sand-400" /><span className="text-sm">{format(new Date(selectedBooking.sessionDate), 'MM-dd')} {selectedBooking.sessionStartTime}</span></div>
+                    <div className="flex items-center gap-2"><Calendar size={14} className="text-sand-400" /><span className="text-sm">{format(new Date(selectedBooking.sessionDate), 'yyyy-MM-dd')} {selectedBooking.sessionStartTime}-{selectedBooking.sessionEndTime}</span></div>
+                    {selectedBooking.expectedDate && selectedBooking.expectedDate !== selectedBooking.sessionDate && (
+                      <div className="flex items-center gap-2 text-xs text-sand-400"><Calendar size={12} /><span>期望日期: {selectedBooking.expectedDate}</span></div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
-              <Card><CardContent className="p-4"><p className="text-sm text-sand-700">{selectedBooking.remark}</p></CardContent></Card>
-              {materialItems.length > 0 && (
+              {selectedBooking.teacherNotes && (
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FileText size={14} className="text-sand-400" />
+                      <h4 className="text-sm font-medium text-sand-500">老师备注</h4>
+                    </div>
+                    <p className="text-sm text-sand-700">{selectedBooking.teacherNotes}</p>
+                  </CardContent>
+                </Card>
+              )}
+              {selectedBooking.remark && (
+                <Card><CardContent className="p-4"><p className="text-sm text-sand-700">{selectedBooking.remark}</p></CardContent></Card>
+              )}
+              {selectedBooking.materialPackageConfig && selectedBooking.materialPackageConfig.length > 0 && (
                 <Card>
                   <CardContent className="p-4">
                     <h4 className="text-sm font-medium text-sand-500 mb-2">材料包配置</h4>
-                    {materialItems.map((item, i) => (
+                    {selectedBooking.materialPackageConfig.map((item, i) => (
                       <div key={i} className="flex justify-between py-1">
                         <span>{item.name} × {item.quantity}</span>
                         <span className="text-sm text-sand-500">{item.description}</span>
@@ -318,9 +359,85 @@ export default function AdminTeam() {
                 <div className="flex gap-3">
                   <Button variant="ghost" onClick={() => setShowDetailModal(false)}>关闭</Button>
                   {selectedBooking.status === 'pending' && (
-                    <Button onClick={() => handleConfirmBooking(selectedBooking.id)}><CheckCircle size={16} /> 确认</Button>
+                    <Button onClick={() => handleOpenConfirm(selectedBooking)}><CheckCircle size={16} /> 排期确认</Button>
                   )}
                 </div>
+              </div>
+            </div>
+          )}
+        </Modal>
+
+        <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)} title="排期确认" size="lg">
+          {selectedBooking && (
+            <div className="space-y-5">
+              <div className="bg-sand-50 rounded-2xl p-4">
+                <h4 className="font-semibold text-sand-900 mb-2">{selectedBooking.teamName}</h4>
+                <p className="text-sm text-sand-600">{selectedBooking.courseTitle} · {selectedBooking.teamMemberCount}人 · ¥{selectedBooking.payAmount}</p>
+                {selectedBooking.expectedDate && (
+                  <p className="text-sm text-sand-500 mt-1">期望日期：{selectedBooking.expectedDate}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-sand-700 mb-2">
+                  <Calendar size={14} className="inline mr-1" />
+                  上课日期 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  value={confirmForm.confirmedDate}
+                  onChange={(e) => setConfirmForm({ ...confirmForm, confirmedDate: e.target.value })}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-4 py-3 rounded-xl border border-sand-200 focus:ring-2 focus:ring-clay-500 focus:border-transparent outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-sand-700 mb-2">
+                    <Clock size={14} className="inline mr-1" />
+                    开始时间
+                  </label>
+                  <input
+                    type="time"
+                    value={confirmForm.confirmedStartTime}
+                    onChange={(e) => setConfirmForm({ ...confirmForm, confirmedStartTime: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-sand-200 focus:ring-2 focus:ring-clay-500 focus:border-transparent outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-sand-700 mb-2">
+                    <Clock size={14} className="inline mr-1" />
+                    结束时间
+                  </label>
+                  <input
+                    type="time"
+                    value={confirmForm.confirmedEndTime}
+                    onChange={(e) => setConfirmForm({ ...confirmForm, confirmedEndTime: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-sand-200 focus:ring-2 focus:ring-clay-500 focus:border-transparent outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-sand-700 mb-2">
+                  <FileText size={14} className="inline mr-1" />
+                  老师备注
+                </label>
+                <textarea
+                  rows={3}
+                  value={confirmForm.teacherNotes}
+                  onChange={(e) => setConfirmForm({ ...confirmForm, teacherNotes: e.target.value })}
+                  placeholder="如：需要提前准备陶泥、安排两位老师..."
+                  className="w-full px-4 py-3 rounded-xl border border-sand-200 focus:ring-2 focus:ring-clay-500 focus:border-transparent outline-none resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <Button variant="ghost" onClick={() => setShowConfirmModal(false)}>取消</Button>
+                <Button onClick={handleConfirmSchedule} disabled={!confirmForm.confirmedDate}>
+                  <CheckCircle size={16} /> 确认排期
+                </Button>
               </div>
             </div>
           )}

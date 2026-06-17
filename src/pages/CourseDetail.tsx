@@ -9,6 +9,7 @@ import BookingModal from '@/components/course/BookingModal';
 import CourseCard from '@/components/home/CourseCard';
 import Button from '@/components/common/Button';
 import { useCourseStore } from '@/store/useCourseStore';
+import { useBookingStore } from '@/store/useBookingStore';
 import type { Course, Session } from '@/types';
 
 function renderStars(rating: number) {
@@ -38,6 +39,7 @@ const difficultyLabels: Record<string, string> = {
 export default function CourseDetail() {
   const { id } = useParams<{ id: string }>();
   const { courses, getCourseById, getWorkshopById, isLoaded, loadMockData } = useCourseStore();
+  const { getSessionBookedCount, bookings } = useBookingStore();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -50,6 +52,12 @@ export default function CourseDetail() {
 
   const course = useMemo(() => id ? getCourseById(id) : undefined, [id, getCourseById]);
   const workshop = useMemo(() => course ? getWorkshopById(course.workshopId) : undefined, [course, getWorkshopById]);
+
+  const selectedSessionRemaining = useMemo(() => {
+    if (!selectedSession) return 0;
+    const bookedCount = getSessionBookedCount(selectedSession.id);
+    return Math.max(0, selectedSession.maxPeople - selectedSession.currentPeople - bookedCount);
+  }, [selectedSession, getSessionBookedCount, bookings]);
 
   const relatedCourses = useMemo(() => {
     if (!course) return [];
@@ -256,7 +264,7 @@ export default function CourseDetail() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sand-500">剩余名额</span>
-                    <span className="font-medium text-sand-800">{selectedSession.maxPeople - selectedSession.currentPeople}人</span>
+                    <span className="font-medium text-sand-800">{selectedSessionRemaining}人</span>
                   </div>
                   <div className="border-t border-sand-100 pt-3 flex justify-between">
                     <span className="text-sand-500">单价</span>

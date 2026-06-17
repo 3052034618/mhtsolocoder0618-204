@@ -18,6 +18,7 @@ import { zhCN } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Clock, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCourseStore } from '@/store/useCourseStore';
+import { useBookingStore } from '@/store/useBookingStore';
 import type { Session } from '@/types';
 
 interface SessionCalendarProps {
@@ -36,11 +37,17 @@ function SessionCalendar({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { getSessionsByCourse } = useCourseStore();
+  const { getSessionBookedCount, bookings } = useBookingStore();
 
   const sessions = useMemo(
     () => getSessionsByCourse(courseId),
     [courseId, getSessionsByCourse]
   );
+
+  const getSessionRemaining = (session: Session) => {
+    const bookedCount = getSessionBookedCount(session.id);
+    return Math.max(0, session.maxPeople - session.currentPeople - bookedCount);
+  };
 
   const calendarDays = useMemo(() => {
     const startDate = startOfWeek(startOfMonth(currentMonth), { locale: zhCN });
@@ -68,14 +75,14 @@ function SessionCalendar({
 
   const isDateFull = (date: Date) => {
     const daySessions = getSessionsByDate(date);
-    return daySessions.length > 0 && daySessions.every((s) => s.currentPeople >= s.maxPeople);
+    return daySessions.length > 0 && daySessions.every((s) => getSessionRemaining(s) <= 0);
   };
 
   const getDateInfo = (date: Date) => {
     const daySessions = getSessionsByDate(date);
     if (daySessions.length === 0) return null;
     const minPrice = Math.min(...daySessions.map((s) => s.price));
-    const totalSpots = daySessions.reduce((sum, s) => sum + (s.maxPeople - s.currentPeople), 0);
+    const totalSpots = daySessions.reduce((sum, s) => sum + getSessionRemaining(s), 0);
     return { minPrice, totalSpots };
   };
 
@@ -164,7 +171,8 @@ function SessionCalendar({
           </h4>
           <div className="grid gap-3">
             {selectedDateSessions.map((session) => {
-              const isFull = session.currentPeople >= session.maxPeople;
+              const remaining = getSessionRemaining(session);
+              const isFull = remaining <= 0;
               const isSelected = selectedSession?.id === session.id;
               return (
                 <button
@@ -193,7 +201,7 @@ function SessionCalendar({
                       </div>
                       <div className="flex items-center gap-2 text-sm text-sand-500">
                         <Users size={14} />
-                        <span>{session.maxPeople - session.currentPeople}/{session.maxPeople}人可约</span>
+                        <span>{remaining}/{session.maxPeople}人可约</span>
                       </div>
                     </div>
                   </div>

@@ -12,6 +12,8 @@ interface BookingActions {
   updateBooking: (id: string, updates: Partial<Booking>) => void;
   getBookingsByUser: (userId: string) => Booking[];
   getBookingsByCourse: (courseId: string) => Booking[];
+  getBookingsBySession: (sessionId: string) => Booking[];
+  getSessionBookedCount: (sessionId: string) => number;
   checkIn: (bookingId: string) => boolean;
   setCurrentBooking: (booking: Booking | null) => void;
 }
@@ -64,6 +66,18 @@ export const useBookingStore = create<BookingStore>()(
         return get()
           .bookings.filter((booking) => booking.courseId === courseId)
           .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      },
+
+      getBookingsBySession: (sessionId) => {
+        return get()
+          .bookings.filter((booking) => booking.sessionId === sessionId && booking.status !== 'cancelled' && booking.status !== 'refunded')
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      },
+
+      getSessionBookedCount: (sessionId) => {
+        return get()
+          .bookings.filter((booking) => booking.sessionId === sessionId && booking.status !== 'cancelled' && booking.status !== 'refunded')
+          .reduce((sum, b) => sum + b.peopleCount, 0);
       },
 
       checkIn: (bookingId) => {

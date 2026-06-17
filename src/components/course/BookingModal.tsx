@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import { Calendar, Clock, Users, Minus, Plus, CreditCard, Wallet, Smartphone } from 'lucide-react';
+import { Calendar, Clock, Users, Minus, Plus, CreditCard, Wallet, Smartphone, LogIn, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Modal from '@/components/common/Modal';
 import Button from '@/components/common/Button';
@@ -27,20 +28,35 @@ const PAYMENT_METHODS = [
 ];
 
 function BookingModal({ isOpen, onClose, courseId, session, onSuccess }: BookingModalProps) {
+  const navigate = useNavigate();
   const [peopleCount, setPeopleCount] = useState(1);
   const [attendeeNames, setAttendeeNames] = useState<string[]>(['']);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('wechat');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { getCourseById } = useCourseStore();
-  const { addBooking } = useBookingStore();
-  const { currentUser } = useUserStore();
+  const { addBooking, getSessionBookedCount, bookings } = useBookingStore();
+  const { currentUser, isLoggedIn } = useUserStore();
 
   const course = useMemo(() => getCourseById(courseId), [courseId, getCourseById]);
+
+  const bookedCount = useMemo(() => {
+    if (!session) return 0;
+    return getSessionBookedCount(session.id);
+  }, [session, getSessionBookedCount, bookings]);
+
+  const remainingSpots = useMemo(() => {
+    if (!session) return 0;
+    return Math.max(0, session.maxPeople - session.currentPeople - bookedCount);
+  }, [session, bookedCount]);
+
   const totalPrice = useMemo(() => (session ? session.price * peopleCount : 0), [session, peopleCount]);
 
+  const isFull = remainingSpots <= 0;
+  const isExceeding = peopleCount > remainingSpots;
+
   const handlePeopleChange = (delta: number) => {
-    const newCount = Math.max(1, Math.min(10, peopleCount + delta));
+    const newCount = Math.max(1, Math.min(remainingSpots, peopleCount + delta));
     setPeopleCount(newCount);
     setAttendeeNames((prev) =>
       newCount > prev.length
@@ -97,6 +113,41 @@ function BookingModal({ isOpen, onClose, courseId, session, onSuccess }: Booking
 
   const sessionDate = new Date(session.date);
 
+  if (!isLoggedIn) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose} title="确认报名" size="md">
+        <div className="text-center py-8">
+          <div className="w-16 h-16 rounded-full bg-clay-100 flex items-center justify-center mx-auto mb-4">
+            <LogIn className="w-8 h-8 text-clay-600" />
+          </div>
+          <h3 className="text-xl font-bold text-sand-900 mb-2">请先登录</h3>
+          <p className="text-sand-500 mb-6">报名课程需要登录账号，登录后即可继续报名</p>
+          <div className="flex gap-3 justify-center">
+            <Button variant="ghost" onClick={onClose}>稍后再说</Button>
+            <Button onClick={() => { onClose(); navigate('/login'); }}>
+              <LogIn size={16} /> 去登录
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
+
+  if (isFull) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose} title="确认报名" size="md">
+        <div className="text-center py-8">
+          <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-amber-600" />
+          </div>
+          <h3 className="text-xl font-bold text-sand-900 mb-2">名额已满</h3>
+          <p className="text-sand-500 mb-6">该期次报名人数已达上限，请选择其他期次</p>
+          <Button variant="ghost" onClick={onClose}>返回选择其他期次</Button>
+        </div>
+      </Modal>
+    );
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="确认报名" size="lg">
       <div className="space-y-6">
@@ -113,7 +164,9 @@ function BookingModal({ isOpen, onClose, courseId, session, onSuccess }: Booking
             </div>
             <div className="flex items-center gap-2">
               <Users size={16} className="text-clay-500" />
-              <span>剩余 {session.maxPeople - session.currentPeople} 个名额</span>
+              <span className={remainingSpots <= 3 ? 'text-amber-600 font-medium' : ''}>
+                剩余 {remainingSpots} 个名额
+              </span>
             </div>
           </div>
           <div className="text-xl font-bold text-clay-600">¥{session.price} / 人</div>
@@ -132,12 +185,12 @@ function BookingModal({ isOpen, onClose, courseId, session, onSuccess }: Booking
             <span className="w-16 text-center text-2xl font-bold text-sand-900">{peopleCount}</span>
             <button
               onClick={() => handlePeopleChange(1)}
-              disabled={peopleCount >= 10}
+              disabled={peopleCount >= remainingSpots}
               className="w-10 h-10 rounded-xl bg-sand-100 flex items-center justify-center text-sand-600 hover:bg-sand-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <Plus size={18} />
             </button>
-            <span className="text-sm text-sand-500">最多10人</span>
+            <span className="text-sm text-sand-500">最多{remainingSpots}人</span>
           </div>
         </div>
 
@@ -183,7 +236,13 @@ function BookingModal({ isOpen, onClose, courseId, session, onSuccess }: Booking
             <span className="text-sand-600">{session.price} × {peopleCount} 人</span>
             <span className="text-2xl font-bold text-clay-600">¥{totalPrice}</span>
           </div>
-          <Button className="w-full" size="lg" onClick={handleSubmit} loading={isSubmitting}>
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={handleSubmit}
+            loading={isSubmitting}
+            disabled={isExceeding}
+          >
             确认支付 ¥{totalPrice}
           </Button>
         </div>

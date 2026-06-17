@@ -11,15 +11,34 @@ import {
   UserCheck,
   UserX,
   Calendar,
+  Building2,
 } from 'lucide-react';
 import { useCourseStore } from '@/store/useCourseStore';
 import { useCheckinStore } from '@/store/useCheckinStore';
+import { useBookingStore } from '@/store/useBookingStore';
+import { useTeamBookingStore } from '@/store/useTeamBookingStore';
 import mockBookings from '@/data/mock/bookings.json';
 import { format } from 'date-fns';
+
+interface VirtualSession {
+  id: string;
+  courseId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  maxPeople: number;
+  currentPeople: number;
+  price: number;
+  isTeamBooking: boolean;
+  teamBookingId?: string;
+  teamName?: string;
+}
 
 export default function AdminCheckin() {
   const { courses, sessions, loadMockData, getSessionsByCourse } = useCourseStore();
   const { checkinRecords, checkIn, cancelCheckIn, isCheckedIn, getCheckinCount } = useCheckinStore();
+  const { bookings, getBookingsBySession } = useBookingStore();
+  const { teamBookings } = useTeamBookingStore();
   const [selectedCourseId, setSelectedCourseId] = useState<string>('');
   const [selectedSessionId, setSelectedSessionId] = useState<string>('');
   const [showCourseDropdown, setShowCourseDropdown] = useState(false);
@@ -32,27 +51,72 @@ export default function AdminCheckin() {
     }
   }, [loadMockData, courses, selectedCourseId]);
 
-  useEffect(() => {
+  const allSessions = useMemo(() => {
     const courseSessions = getSessionsByCourse(selectedCourseId);
-    if (courseSessions.length > 0 && !selectedSessionId) {
-      setSelectedSessionId(courseSessions[0].id);
+
+    const confirmedTeamBookings = teamBookings.filter(
+      (b) => b.courseId === selectedCourseId && (b.status === 'confirmed' || b.status === 'completed') && b.confirmedDate
+    );
+
+    const virtualTeamSessions: VirtualSession[] = confirmedTeamBookings.map((tb) => ({
+      id: tb.sessionId,
+      courseId: tb.courseId,
+      date: tb.confirmedDate!,
+      startTime: tb.confirmedStartTime || '09:00',
+      endTime: tb.confirmedEndTime || '11:00',
+      maxPeople: tb.peopleCount,
+      currentPeople: tb.peopleCount,
+      price: 0,
+      isTeamBooking: true,
+      teamBookingId: tb.id,
+      teamName: tb.enterpriseName,
+    }));
+
+    const existingSessionIds = new Set(courseSessions.map(s => s.id));
+    const newTeamSessions = virtualTeamSessions.filter(vs => !existingSessionIds.has(vs.id));
+
+    return [...courseSessions, ...newTeamSessions].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }, [selectedCourseId, getSessionsByCourse, teamBookings]);
+
+  useEffect(() => {
+    if (allSessions.length > 0 && !selectedSessionId) {
+      setSelectedSessionId(allSessions[0].id);
+    } else if (selectedSessionId && !allSessions.find(s => s.id === selectedSessionId)) {
+      setSelectedSessionId(allSessions.length > 0 ? allSessions[0].id : '');
     }
-  }, [selectedCourseId, getSessionsByCourse, selectedSessionId]);
+  }, [allSessions, selectedSessionId]);
 
   const selectedCourse = useMemo(() => {
     return courses.find((c) => c.id === selectedCourseId);
   }, [courses, selectedCourseId]);
 
   const selectedSession = useMemo(() => {
-    return sessions.find((s) => s.id === selectedSessionId);
-  }, [sessions, selectedSessionId]);
+    return allSessions.find((s) => s.id === selectedSessionId);
+  }, [allSessions, selectedSessionId]);
 
-  const courseSessions = useMemo(() => {
-    return getSessionsByCourse(selectedCourseId);
-  }, [selectedCourseId, getSessionsByCourse]);
+  const isTeamSession = useMemo(() => {
+    return selectedSession?.isTeamBooking;
+  }, [selectedSession]);
 
   const checkinBookings = useMemo((): CheckinItem[] => {
-    return mockBookings
+    if (!selectedSessionId) return [];
+
+    const realBookings = getBookingsBySession(selectedSessionId);
+    const realItems: CheckinItem[] = realBookings.map((b) => {
+      const checkedIn = isCheckedIn(b.id, selectedSessionId);
+      return {
+        id: b.id,
+        userName: b.userName || b.attendeeNames[0] || '学员',
+        userPhone: b.userPhone || '',
+        peopleCount: b.peopleCount,
+        createdAt: b.createdAt,
+        status: checkedIn ? 'checkedin' as const : 'paid' as const,
+      };
+    });
+
+    const mockItems: CheckinItem[] = mockBookings
       .filter((b) => b.sessionId === selectedSessionId && b.status !== 'cancelled' && b.status !== 'refunded')
       .map((b): CheckinItem => {
         const checkedIn = isCheckedIn(b.id, selectedSessionId);
@@ -66,7 +130,27 @@ export default function AdminCheckin() {
           status: checkedIn ? 'checkedin' : baseStatus === 'completed' ? 'completed' : 'paid',
         };
       });
-  }, [selectedSessionId, checkinRecords, isCheckedIn]);
+
+    if (isTeamSession && selectedSession?.teamBookingId) {
+      const tb = teamBookings.find(t => t.id === selectedSession.teamBookingId);
+      if (tb) {
+        const checkedIn = isCheckedIn(tb.id, selectedSessionId);
+        return [{
+          id: tb.id,
+          userName: tb.contactName,
+          userPhone: tb.contactPhone,
+          peopleCount: tb.peopleCount,
+          createdAt: tb.createdAt,
+          status: checkedIn ? 'checkedin' as const : 'paid' as const,
+        }];
+      }
+    }
+
+    const realIds = new Set(realItems.map(i => i.id));
+    const filteredMockItems = mockItems.filter(i => !realIds.has(i.id));
+
+    return [...realItems, ...filteredMockItems];
+  }, [selectedSessionId, checkinRecords, isCheckedIn, getBookingsBySession, bookings, isTeamSession, selectedSession, teamBookings]);
 
   const stats = useMemo(() => {
     const total = checkinBookings.reduce((sum, b) => sum + b.peopleCount, 0);
@@ -159,7 +243,7 @@ export default function AdminCheckin() {
                 <label className="block text-sm text-sand-500 mb-1">选择期次</label>
                 <button
                   onClick={() => setShowSessionDropdown(!showSessionDropdown)}
-                  disabled={!selectedCourseId || courseSessions.length === 0}
+                  disabled={!selectedCourseId || allSessions.length === 0}
                   className="flex items-center gap-2 px-4 py-2.5 bg-white border border-sand-200 rounded-xl hover:border-clay-500 transition-colors min-w-72 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Calendar size={16} className="text-sand-400" />
@@ -170,9 +254,9 @@ export default function AdminCheckin() {
                   </span>
                   <ChevronDown size={18} className="ml-auto text-sand-400" />
                 </button>
-                {showSessionDropdown && courseSessions.length > 0 && (
+                {showSessionDropdown && allSessions.length > 0 && (
                   <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-sand-200 rounded-xl shadow-lg z-10 max-h-80 overflow-y-auto">
-                    {courseSessions.map((session) => (
+                    {allSessions.map((session) => (
                       <button
                         key={session.id}
                         onClick={() => {
@@ -191,9 +275,16 @@ export default function AdminCheckin() {
                             {session.isTeamBooking ? '团建' : '散客'}
                           </Tag>
                         </div>
-                        <p className="text-xs text-sand-400 mt-1">
-                          已报名 {session.currentPeople}/{session.maxPeople} 人
-                        </p>
+                        {session.isTeamBooking && (session as VirtualSession).teamName ? (
+                          <p className="text-xs text-sand-400 mt-1">
+                            <Building2 size={12} className="inline mr-1" />
+                            {(session as VirtualSession).teamName} · {session.currentPeople}人
+                          </p>
+                        ) : (
+                          <p className="text-xs text-sand-400 mt-1">
+                            已报名 {session.currentPeople}/{session.maxPeople} 人
+                          </p>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -232,9 +323,17 @@ export default function AdminCheckin() {
         {selectedSession ? (
           <Card>
             <CardHeader>
-              <h3 className="text-lg font-semibold text-sand-900">
-                {selectedCourse?.title} - {format(new Date(selectedSession.date), 'MM月dd日')} {selectedSession.startTime}
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-sand-900">
+                  {selectedCourse?.title} - {format(new Date(selectedSession.date), 'MM月dd日')} {selectedSession.startTime}
+                </h3>
+                {isTeamSession && (selectedSession as VirtualSession).teamName && (
+                  <Tag variant="warning">
+                    <Building2 size={14} className="mr-1" />
+                    {(selectedSession as VirtualSession).teamName}
+                  </Tag>
+                )}
+              </div>
             </CardHeader>
             <CardContent>
               <CheckinTable
